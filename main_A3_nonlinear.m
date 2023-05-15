@@ -17,8 +17,8 @@ clear;
 %% Simulation Settings
 Tf = 10;            %Simulation length
 Ts = 1/1000;         %Controller sampling time
-controller = 1;     %Type of Controller
-ro=1.5;             %Initial Radius
+controller =3;     %Type of Controller
+ro=4;             %Initial Radius
 N=12;               %Number of starting points
 
 %% Linearized System
@@ -32,19 +32,23 @@ poles_cont = [-2,-2];
 K1 = place(A,B,poles_cont);
 
 %% Design an SFC with guaranteed region of attraction ||x||<2
-alpha=1;
+alpha=9;
 K2=[alpha 0;
       2         alpha/2];
 
 %% Design nonlinear controller
- K3=K1;
-% K3=K2;
-% K3: LQR
+A_fb_lin = A;
+B_fb_lin = eye(2);
+Q = eye(2);
+R = 0.1*eye(2);
+[K3, ~, ~] = lqr(A_fb_lin, B_fb_lin, Q, R);
+
 
 
 %% Design SMC
 % Desing surface Cs and switching gain gamma
-Cs=eye(2);
+Cs=[2, 2;
+    3, 2];
 gamma=1;
 
 
@@ -54,7 +58,7 @@ fig=figure(1);
 set(gcf, 'Position',  [0,     100,   500,   500]) %Set plot position and size 
 clf(fig)
 grid on
-axis(3*[-1 1 -1 1])
+axis(8*[-1 1 -1 1])
 pbaspect([1 1 1])       % To keep the both axis lengths with the same ratio
 hold on
 
@@ -110,6 +114,10 @@ switch (controller)
         title("Linearised SFC through Indirect Lyaponov Theorom")
     case 2
         title("Linearised SFC through Direct Lyaponov Theorom")
+    case 3
+        title("Feedback Linearisation")
+    case 4
+        title("Sliding Mode Control")
 end
 hold off 
 %% Plots: variable vs time
