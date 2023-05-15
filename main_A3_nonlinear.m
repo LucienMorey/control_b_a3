@@ -18,7 +18,7 @@ clear;
 Tf = 10;            %Simulation length
 Ts = 1/1000;         %Controller sampling time
 controller = 1;     %Type of Controller
-ro=1.3;             %Initial Radius
+ro=1.5;             %Initial Radius
 N=12;               %Number of starting points
 
 %% Linearized System
@@ -96,11 +96,29 @@ for k =1:N
     
 end
 th = linspace(0,2*pi,50);
-
 [x_circle, y_circle] = pol2cart(th, ro);
-plot(x_circle, y_circle);
+plot(x_circle, y_circle, 'k--');
+text_angle = 70;
+plot([0, ro*cos(text_angle*pi/180)], [0, ro*sin(text_angle*pi/180)], 'k--');
+text_start_x = ro/2 * cos(text_angle*pi/180);
+text_start_y = ro/2 * sin(text_angle*pi/180);
+text(text_start_x, text_start_y, sprintf("ro = %0.2f\n", ro), 'Rotation', text_angle);
+xlabel("x_1(t)", "Interpreter", 'latex');
+ylabel("x_2(t)", "Interpreter", 'latex');
+switch (controller)
+    case 1
+        title("Linearised SFC through Indirect Lyaponov Theorom")
+    case 2
+        title("Linearised SFC through Direct Lyaponov Theorom")
+end
 hold off 
 %% Plots: variable vs time
 figure(2)
-plot(time,u1)
+subplot(211)
+plot(time,u1, time, u2);
+legend('u_1(t)','u_2(t)');
+subplot(212);
+plot(time,x1, time, x2);
+legend('x_1(t)', 'x_2(t)');
+xlabel('Time(s)');
 disp('Done!!!')
