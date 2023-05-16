@@ -17,7 +17,7 @@ clear;
 %% Simulation Settings
 Tf = 10;            %Simulation length
 Ts = 1/1000;         %Controller sampling time
-controller =3;     %Type of Controller
+controller =4;     %Type of Controller
 ro=4;             %Initial Radius
 N=12;               %Number of starting points
 
@@ -47,8 +47,8 @@ R = 0.1*eye(2);
 
 %% Design SMC
 % Desing surface Cs and switching gain gamma
-Cs=[2, 2;
-    3, 2];
+Cs=[0.4, 0.001;
+    0.001, 0.2];
 gamma=1;
 
 
