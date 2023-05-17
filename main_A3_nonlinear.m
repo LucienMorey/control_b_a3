@@ -58,7 +58,7 @@ fig=figure(1);
 set(gcf, 'Position',  [0,     100,   500,   500]) %Set plot position and size 
 clf(fig)
 grid on
-axis(8*[-1 1 -1 1])
+axis(6*[-1 1 -1 1])
 pbaspect([1 1 1])       % To keep the both axis lengths with the same ratio
 hold on
 
@@ -107,8 +107,8 @@ plot([0, ro*cos(text_angle*pi/180)], [0, ro*sin(text_angle*pi/180)], 'k--');
 text_start_x = ro/2 * cos(text_angle*pi/180);
 text_start_y = ro/2 * sin(text_angle*pi/180);
 text(text_start_x, text_start_y, sprintf("ro = %0.2f\n", ro), 'Rotation', text_angle);
-xlabel("x_1(t)", "Interpreter", 'latex');
-ylabel("x_2(t)", "Interpreter", 'latex');
+xlabel("$x_1(t)$", "Interpreter", 'latex');
+ylabel("$x_2(t)$", "Interpreter", 'latex');
 switch (controller)
     case 1
         title("Linearised SFC through Indirect Lyaponov Theorom")
@@ -122,11 +122,13 @@ end
 hold off 
 %% Plots: variable vs time
 figure(2)
-subplot(211)
+% subplot(211)
 plot(time,u1, time, u2);
 legend('u_1(t)','u_2(t)');
-subplot(212);
-plot(time,x1, time, x2);
-legend('x_1(t)', 'x_2(t)');
+% subplot(212);
+% plot(time,x1, time, x2);
+% legend('x_1(t)', 'x_2(t)');
 xlabel('Time(s)');
+ylabel('$u(t)$', 'Interpreter', 'latex');
+title('Sliding Inputs');
 disp('Done!!!')
